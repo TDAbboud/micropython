@@ -137,6 +137,7 @@ Q(info)
 Q(datetime)
 Q(wakeup)
 Q(calibration)
+Q(alarm)
 
 // for Pin class
 Q(Pin)
