@@ -698,8 +698,49 @@ mp_obj_t pyb_rtc_calibration(mp_uint_t n_args, const mp_obj_t *args) {
 }
 MP_DEFINE_CONST_FUN_OBJ_VAR_BETWEEN(pyb_rtc_calibration_obj, 1, 2, pyb_rtc_calibration);
 
+
+void pyb_rtc_calc_future_time() {
+    //TODO: Finish this function
+    uint32_t seconds;
+    uint32_t mseconds;
+
+    // Get the current time
+    pyb_rtc_get_time();
+}
+
+// time = datetime.datetime(2015, 12, 20)   // Can be either a datetime tuple or a time in ms
+// time = 2000
+// alarm(time, repeats=False)
 mp_obj_t pyb_rtc_alarm(mp_uint_t n_args, const mp_obj_t *args) {
-    // Use the HAL to configure the timer correctly
+    //TODO: Calculate the future time from the current time
+    pyb_rtc_calc_future_time();
+    
+    //TODO: Set the time for the alarm here (pass in a datetime object)
+    // set the time to 00:00:00
+    RTC_TimeTypeDef time;
+    time.Hours = 0;
+    time.Minutes = 0;
+    time.Seconds = 0;
+    time.TimeFormat = RTC_HOURFORMAT12_AM;
+    time.DayLightSaving = RTC_DAYLIGHTSAVING_NONE;
+    time.StoreOperation = RTC_STOREOPERATION_RESET;
+
+    // Configure the alarm (see RTC_CalendarConfig on line 382 for reference)
+    // weekday/date -> weekday (mon-sun) date (1-31)
+    RTC_AlarmTypeDef alarm_handle;
+    alarm_handle.AlarmTime = time;
+    alarm_handle.AlarmMask; // Set the mask for how the alarm should be triggered see page 11 of DM00025071.pdf
+    alarm_handle.AlarmSubSecondMask;
+    alarm_handle.AlarmDateWeekDaySel;
+    alarm_handle.AlarmDateWeekDay;
+    alarm_handle.Alarm = RTC_ALARM_A;   //TODO: Dynamically set either alarm A or alarm B
+
+    //TODO: Parse the arguments here
+
+
+    if (HAL_RTC_SetAlarm(&RTCHandle, &alarm_handle, FORMAT_BIN) != HAL_OK) {
+        // hal error!
+    }
     return mp_obj_new_int(0);
 }
 MP_DEFINE_CONST_FUN_OBJ_VAR_BETWEEN(pyb_rtc_alarm_obj, 1, 2, pyb_rtc_alarm);
