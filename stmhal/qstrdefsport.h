@@ -496,3 +496,8 @@ Q(mem)
 Q(mem8)
 Q(mem16)
 Q(mem32)
+
+// for FSMC
+#if MICROPY_HW_ENABLE_FSMC
+Q(FSMC)
+#endif
