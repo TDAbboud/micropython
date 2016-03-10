@@ -37,3 +37,7 @@ __pycache__/
 ######################
 GNUmakefile
 user.props
+
+# Vagrant directory
+######################
+.vagrant/
